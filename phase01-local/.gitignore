@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# 仮想環境
+venv/
+.venv/
+env/
+ENV/
+
+# 環境変数
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# プロジェクト固有
+data/chromadb/
+data/documents/
+data/chat_logs/
+*.log
+credentials/*.json
+!credentials/.gitkeep
+
+# テンポラリファイル
+test_*.py
+*.tmp
+*.bak

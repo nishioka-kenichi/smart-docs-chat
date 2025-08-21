@@ -1,0 +1,111 @@
+# ------------------------------------------------------------
+# Core Framework
+# ------------------------------------------------------------
+
+# LangChain本体 - LLMアプリケーション構築の中核フレームワーク
+# 書籍全体を通して使用される最重要パッケージ
+# LCELによるChain構築、各種コンポーネントの基盤を提供
+langchain==0.3.10
+
+# ------------------------------------------------------------
+# LLM Integration
+# ------------------------------------------------------------
+
+# OpenAI APIとの連携用パッケージ
+# ChatOpenAI, OpenAIEmbeddingsクラスを提供
+# 書籍4.2節（Chat model）、4.6節（Embedding model）で使用
+# 0.3.30に更新（OpenAIクライアントのproxiesパラメータエラー対策）
+langchain-openai==0.3.30
+
+# OpenAI公式Pythonクライアント
+# API通信の基盤、GPT-4o-miniへのアクセスに必須
+# トークン数計算、ストリーミング応答などの機能を含む
+openai==1.40.0
+
+# ------------------------------------------------------------
+# Community Integrations
+# ------------------------------------------------------------
+
+# LangChainのコミュニティ実装パッケージ
+# GitLoader, NotionDBLoader, GoogleDriveLoaderなどを提供
+# 書籍4.6節のDocument loader実装で必須
+# 150以上のインテグレーションを含む
+langchain-community==0.3.10
+
+# ------------------------------------------------------------
+# Vector Database
+# ------------------------------------------------------------
+
+# ChromaDB用LangChain統合パッケージ
+# Chromaクラスを提供、ベクトル検索の実装に必須
+# 書籍4.6節のVector store実装で使用
+langchain-chroma==0.1.4
+
+# ChromaDB本体 - ローカルで動作するベクトルデータベース
+# 埋め込みベクトルの保存と類似度検索を実現
+# persist_directoryで永続化可能
+# SQLite3をバックエンドとして使用
+chromadb==0.5.0
+
+# ------------------------------------------------------------
+# Text Processing
+# ------------------------------------------------------------
+
+# テキスト分割用パッケージ
+# CharacterTextSplitter, RecursiveCharacterTextSplitterを提供
+# 書籍4.6節のDocument transformer実装で使用
+# チャンクサイズとオーバーラップの制御が可能
+langchain-text-splitters==0.3.0
+
+# ------------------------------------------------------------
+# Data Source Integration - Google Drive
+# ------------------------------------------------------------
+
+# Google API Pythonクライアント
+# GoogleDriveLoaderでDrive APIと通信するために必須
+# ファイル一覧取得、ダウンロード、メタデータ取得に使用
+google-api-python-client==2.100.0
+
+# Google認証ライブラリ
+# サービスアカウント認証、OAuth2.0認証に必要
+# Drive APIへのアクセス権限を管理
+google-auth==2.23.4
+google-auth-httplib2==0.1.1
+google-auth-oauthlib==1.1.0
+
+# ------------------------------------------------------------
+# Document Processing
+# ------------------------------------------------------------
+
+# PDF処理用高精度ライブラリ（pdfplumber）
+# Google DriveからダウンロードしたPDFのテキスト抽出に使用
+# PyPDF2より高精度なレイアウト解析、日本語PDF対応、表形式データ抽出が可能
+# 就業規則などの縦書き・段組み文書も正確に処理
+# data_loader_google.pyで使用
+pdfplumber==0.11.7
+
+# Microsoft Office文書処理（オプション）
+# .docx, .pptxファイルの読み込み用
+# python-docx==0.8.11
+# python-pptx==0.6.21
+
+# ------------------------------------------------------------
+# Data Source Integration - Notion
+# ------------------------------------------------------------
+
+# Notion API公式Pythonクライアント
+# NotionDirectoryLoaderで内部的に使用
+# ページコンテンツやデータベースの取得に必要
+notion-client==2.4.0
+
+# ------------------------------------------------------------
+# Configuration Management
+# ------------------------------------------------------------
+
+# 環境変数管理用ライブラリ
+# .envファイルから環境変数を自動読み込み
+# APIキーなどの機密情報を安全に管理
+# OPENAI_API_KEY, NOTION_TOKEN等の管理に使用
+python-dotenv==1.0.1
+
+

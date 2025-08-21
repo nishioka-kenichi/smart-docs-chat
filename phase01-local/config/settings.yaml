@@ -1,0 +1,51 @@
+# ===================================
+# システム設定ファイル
+# ===================================
+
+# ChromaDB設定
+chromadb:
+  persist_directory: "./data/chromadb"
+  collection_name: "phase01_documents"
+
+# 埋め込みモデル設定
+embedding:
+  model: "text-embedding-3-small"
+  # model: "text-embedding-ada-002"  # 旧モデル（精度低）
+
+# LLMモデル設定
+llm:
+  model: "gpt-4o-mini"
+  temperature: 0.3
+  max_tokens: 2000
+
+# チャンク分割設定
+chunking:
+  chunk_size: 500
+  chunk_overlap: 100
+  # 文書タイプ別の設定
+  legal_documents:
+    chunk_size: 600
+    chunk_overlap: 50
+  technical_documents:
+    chunk_size: 800
+    chunk_overlap: 150
+
+# 検索設定
+retriever:
+  k: 10  # 取得する文書数
+  score_threshold: 0.2  # 類似度の閾値
+  # score_threshold: 0.5  # 高精度モード
+
+# ログ設定
+logging:
+  level: "INFO"
+  max_retries: 3
+
+# データローダー設定
+data_loader:
+  notion:
+    batch_size: 50
+    rate_limit_delay: 0.1  # 秒
+  google_drive:
+    batch_size: 10
+    timeout: 30  # 秒
