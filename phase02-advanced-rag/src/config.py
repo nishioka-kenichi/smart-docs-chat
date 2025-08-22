@@ -22,7 +22,6 @@ with open(PROJECT_ROOT / "config" / "settings.yaml", 'r', encoding='utf-8') as f
 # APIキー（環境変数から取得）
 # ============================================
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-COHERE_API_KEY = os.getenv("COHERE_API_KEY")
 
 # ============================================
 # モデル設定（settings.yamlから取得）
@@ -52,16 +51,10 @@ FUSION_ENABLED = settings["components"]["fusion"]["enabled"]
 FUSION_NUM_QUERIES = settings["components"]["fusion"]["num_queries"]
 FUSION_RRF_K = settings["components"]["fusion"]["rrf_k"]
 
-# Reranker設定
-RERANKER_ENABLED = settings["components"]["reranker"]["enabled"]
-RERANKER_TYPE = settings["components"]["reranker"]["type"]
-RERANKER_TOP_K = settings["components"]["reranker"]["top_k"]
-
 # ============================================
 # 検索設定
 # ============================================
 RETRIEVAL_INITIAL_K = settings["retrieval"]["initial_k"]
-RETRIEVAL_RERANK_K = settings["retrieval"]["rerank_k"]
 RETRIEVAL_FINAL_K = settings["retrieval"]["final_k"]
 
 # ============================================
@@ -101,7 +94,6 @@ def print_config():
     print("="*60)
     print(f"\n🔑 API Keys:")
     print(f"  - OpenAI: {'✅ Set' if OPENAI_API_KEY else '❌ Not set'}")
-    print(f"  - Cohere: {'✅ Set' if COHERE_API_KEY else '⚠️ Not set (optional)'}")
     
     print(f"\n🤖 Models:")
     print(f"  - LLM: {LLM_MODEL}")
@@ -114,11 +106,9 @@ def print_config():
     print(f"\n🔧 Components:")
     print(f"  - HyDE: {'✅ Enabled' if HYDE_ENABLED else '❌ Disabled'}")
     print(f"  - RAG-Fusion: {'✅ Enabled' if FUSION_ENABLED else '❌ Disabled'}")
-    print(f"  - Reranker: {'✅ Enabled' if RERANKER_ENABLED else '❌ Disabled'} ({RERANKER_TYPE})")
     
     print(f"\n📊 Retrieval:")
     print(f"  - Initial K: {RETRIEVAL_INITIAL_K}")
-    print(f"  - Rerank K: {RETRIEVAL_RERANK_K}")
     print(f"  - Final K: {RETRIEVAL_FINAL_K}")
     print("="*60 + "\n")
 

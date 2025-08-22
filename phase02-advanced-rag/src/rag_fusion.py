@@ -238,9 +238,7 @@ class RAGFusion:
             for doc_key, score in sorted_docs  # ソート済みリストから取得
         ]
 
-    def search_with_fusion(
-        self, original_query: str, k: int = 10, num_queries: int = 5
-    ) -> Dict:
+    def search_with_fusion(self, original_query: str, k: int = 10, num_queries: int = 5) -> Dict:
         """
         RAG-Fusionを使用した検索のメインメソッド
 
@@ -283,9 +281,7 @@ class RAGFusion:
         # ステップ3: Reciprocal Rank Fusionで複数の検索結果を統合
         # 複数クエリで頻繁にヒットした文書が高スコアになる
         logger.info("Applying Reciprocal Rank Fusion...")
-        fused_results = self.reciprocal_rank_fusion(
-            results_dict
-        )  # RRFアルゴリズムを適用
+        fused_results = self.reciprocal_rank_fusion(results_dict)  # RRFアルゴリズムを適用
 
         # ステップ4: 統合結果から上位k件を最終結果として選択
         # 指定された数だけ取得（デフォルトは10件）
@@ -299,9 +295,7 @@ class RAGFusion:
             "results": final_results,  # RRF統合後の最終結果（文書とスコアのタプル）
             "num_queries": len(queries),  # 使用したクエリ数
             "total_unique_docs": len(fused_results),  # 統合後のユニーク文書総数
-            "top_rrf_score": (
-                final_results[0][1] if final_results else None
-            ),  # 最高RRFスコア
+            "top_rrf_score": (final_results[0][1] if final_results else None),  # 最高RRFスコア
         }
 
     def format_results(self, search_results: Dict) -> str:

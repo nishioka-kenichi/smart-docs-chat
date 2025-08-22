@@ -29,17 +29,10 @@ components:
     enabled: true
     num_queries: 5           # 生成するクエリ数
     rrf_k: 60               # Reciprocal Rank Fusionのパラメータ
-
-  # Reranker設定
-  reranker:
-    enabled: true
-    type: "auto"            # "auto", "cohere", "cross_encoder", "hybrid"
-    top_k: 10               # 再順位付け後の文書数
   
 # 検索設定
 retrieval:
   initial_k: 20           # 初期検索で取得する文書数
-  rerank_k: 10            # 再順位付け後の文書数
   final_k: 5              # 最終的に使用する文書数
   
 # パフォーマンス設定
