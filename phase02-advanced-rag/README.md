@@ -18,9 +18,9 @@ Phase 1の基本RAGシステム（検索精度69-88%）を、Advanced RAG技術�
    - 並列検索と結果の統合（Reciprocal Rank Fusion）
    - より包括的な情報収集
 
-3. **Reranker**
-   - Cohere Rerank APIまたはCross-Encoderモデル
-   - 検索結果の再順位付け
+3. **Reranker**（オプショナル）
+   - Cross-Encoderモデルによる再順位付け
+   - 検索結果の関連性を再評価
    - 最も関連性の高い文書を上位に
 
 ## 📊 期待される成果
@@ -71,6 +71,10 @@ source .venv/bin/activate  # Windows: .venv\Scripts\activate
 
 # 依存パッケージのインストール
 pip install -r requirements.txt
+
+# オプション: Rerankerを使用する場合
+# Cross-Encoder（ローカル実行、精度向上）
+pip install sentence-transformers==3.0.0 torch>=2.0.0
 ```
 
 ### 2. 環境変数の設定
@@ -81,7 +85,6 @@ cp .env.example .env
 
 # 必要なAPIキーを設定
 # - OPENAI_API_KEY
-# - COHERE_API_KEY (Rerankerで使用)
 ```
 
 ### 3. 実行

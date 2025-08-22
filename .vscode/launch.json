@@ -2,6 +2,32 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Phase02: ReRanker Test",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/phase02-advanced-rag/src/reranker.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "python": "${workspaceFolder}/phase02-advanced-rag/.venv/bin/python",
+            "cwd": "${workspaceFolder}/phase02-advanced-rag",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/phase02-advanced-rag"
+            }
+        },
+        {
+            "name": "Phase02: RagFusion Test",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/phase02-advanced-rag/src/rag_fusion.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "python": "${workspaceFolder}/phase02-advanced-rag/.venv/bin/python",
+            "cwd": "${workspaceFolder}/phase02-advanced-rag",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/phase02-advanced-rag"
+            }
+        },
+        {
             "name": "Phase02: RagFusion Test",
             "type": "debugpy",
             "request": "launch",

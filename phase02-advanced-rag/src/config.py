@@ -51,6 +51,13 @@ FUSION_ENABLED = settings["components"]["fusion"]["enabled"]
 FUSION_NUM_QUERIES = settings["components"]["fusion"]["num_queries"]
 FUSION_RRF_K = settings["components"]["fusion"]["rrf_k"]
 
+# Reranker設定
+RERANKER_ENABLED = settings["components"]["reranker"]["enabled"]
+RERANKER_TYPE = settings["components"]["reranker"]["type"]
+
+# Reranker用のオプショナルAPIキー（Cohere用）
+COHERE_API_KEY = os.getenv("COHERE_API_KEY")
+
 # ============================================
 # 検索設定
 # ============================================
@@ -106,6 +113,7 @@ def print_config():
     print(f"\n🔧 Components:")
     print(f"  - HyDE: {'✅ Enabled' if HYDE_ENABLED else '❌ Disabled'}")
     print(f"  - RAG-Fusion: {'✅ Enabled' if FUSION_ENABLED else '❌ Disabled'}")
+    print(f"  - Reranker: {'✅ Enabled' if RERANKER_ENABLED else '❌ Disabled'} (Type: {RERANKER_TYPE})")
     
     print(f"\n📊 Retrieval:")
     print(f"  - Initial K: {RETRIEVAL_INITIAL_K}")

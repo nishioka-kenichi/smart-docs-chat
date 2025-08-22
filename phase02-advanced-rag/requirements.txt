@@ -8,10 +8,16 @@ chromadb==0.5.0
 # LLM and embeddings
 openai==1.51.0
 
-# Advanced RAG components (optional)
-# cohere==5.11.0
-# sentence-transformers==3.0.0
-# torch>=2.0.0
+# ============================================
+# Reranker components (optional)
+# ============================================
+# Rerankerはオプショナルです。必要に応じてインストール：
+#
+# Cross-Encoder Reranker（ローカル実行、無料、精度向上）
+sentence-transformers==3.0.0
+torch>=2.0.0  # sentence-transformersの依存
+#
+# 注意: Rerankerなしでも動作します（SimpleRerankerが自動使用）
 
 # Utilities
 python-dotenv==1.0.0
