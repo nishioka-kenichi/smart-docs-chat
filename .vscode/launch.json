@@ -1,0 +1,44 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Phase02: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "python": "${workspaceFolder}/phase02-advanced-rag/.venv/bin/python",
+            "cwd": "${workspaceFolder}/phase02-advanced-rag",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/phase02-advanced-rag"
+            }
+        },
+        {
+            "name": "Phase02: HyDE Test",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/phase02-advanced-rag/src/hyde.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "python": "${workspaceFolder}/phase02-advanced-rag/.venv/bin/python",
+            "cwd": "${workspaceFolder}/phase02-advanced-rag",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/phase02-advanced-rag"
+            }
+        },
+        {
+            "name": "Phase01: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "python": "${workspaceFolder}/phase01-local/.venv/bin/python",
+            "cwd": "${workspaceFolder}/phase01-local",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/phase01-local"
+            }
+        }
+    ]
+}

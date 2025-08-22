@@ -1,0 +1,60 @@
+# Phase 2: Advanced RAG Configuration
+
+# データベース設定
+database:
+  chromadb:
+    persist_directory: "../phase01-local/data/chromadb"
+    collection_name: "phase01_documents"
+
+# モデル設定
+models:
+  llm:
+    model: "gpt-4o-mini"
+    temperature: 0.7
+    max_tokens: 1000
+  embedding:
+    model: "text-embedding-3-small"
+
+# Advanced RAG Components
+components:
+  # HyDE設定
+  hyde:
+    enabled: true
+    num_hypothetical: 3      # 生成する仮想回答の数
+    temperature: 0.7          # 生成の多様性
+    max_length: 500          # 仮想回答の最大文字数
+
+  # RAG-Fusion設定
+  fusion:
+    enabled: true
+    num_queries: 5           # 生成するクエリ数
+    rrf_k: 60               # Reciprocal Rank Fusionのパラメータ
+
+  # Reranker設定
+  reranker:
+    enabled: true
+    type: "auto"            # "auto", "cohere", "cross_encoder", "hybrid"
+    top_k: 10               # 再順位付け後の文書数
+  
+# 検索設定
+retrieval:
+  initial_k: 20           # 初期検索で取得する文書数
+  rerank_k: 10            # 再順位付け後の文書数
+  final_k: 5              # 最終的に使用する文書数
+  
+# パフォーマンス設定
+performance:
+  cache_enabled: false     # キャッシュ機能（未実装）
+  cache_ttl: 3600         # キャッシュ有効期限（秒）
+  batch_size: 10          # バッチ処理サイズ
+  max_workers: 4          # 並列処理ワーカー数
+  
+# ログ設定
+logging:
+  level: "INFO"           # DEBUG, INFO, WARNING, ERROR
+  file: "logs/advanced_rag.log"
+  
+# 開発設定
+development:
+  test_mode: false        # テストモード
+  debug: false           # デバッグモード
