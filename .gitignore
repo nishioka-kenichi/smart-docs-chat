@@ -100,6 +100,12 @@ venv.bak/
 *.tmp
 *.bak
 
+# Phase 3 LangGraph data
+phase03-langgraph/data/checkpoints/*.pkl.gz
+phase03-langgraph/data/checkpoints/*.json
+phase03-langgraph/data/*.png
+phase03-langgraph/data/*.jpg
+
 # Test files
 test_*.py
 !tests/test_*.py

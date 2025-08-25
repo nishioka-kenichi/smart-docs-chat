@@ -1,0 +1,76 @@
+# Phase 3 LangGraph エージェント設定
+
+# エージェント設定
+agent:
+  max_iterations: 10          # 最大推論ループ数
+  timeout_seconds: 60         # タイムアウト時間
+  verbose: true              # 詳細ログ出力
+
+# LLM設定
+llm:
+  model: "gpt-4o-mini"       # 使用するモデル
+  temperature: 0.7           # 生成の多様性
+  max_tokens: 2000          # 最大トークン数
+  streaming: true           # ストリーミング応答
+
+# ReActパターン設定
+react:
+  max_reasoning_steps: 5    # 最大推論ステップ数
+  enable_reflection: true   # リフレクション機能
+  tool_use_threshold: 0.7   # ツール使用の閾値
+
+# ツール設定
+tools:
+  rag_search:
+    enabled: true
+    top_k: 5               # 検索結果数
+    score_threshold: 0.3   # スコア閾値
+  web_search:
+    enabled: true         # Tavily API使用（要APIキー）
+    max_results: 3
+  calculator:
+    enabled: true
+    precision: 4           # 計算精度
+  file_handler:
+    enabled: true
+    allowed_extensions: [".txt", ".md", ".json", ".csv"]
+
+# グラフ設定
+graph:
+  enable_parallel: true    # 並列実行
+  max_parallel_nodes: 3   # 最大並列ノード数
+  enable_caching: true    # キャッシュ有効化
+  cache_ttl: 3600        # キャッシュTTL（秒）
+
+# チェックポイント設定
+checkpoint:
+  enabled: true
+  auto_save: true         # 自動保存
+  save_interval: 5        # 保存間隔（ステップ数）
+  max_checkpoints: 10     # 最大保存数
+  compression: true       # 圧縮保存
+
+# ChromaDB設定（Phase 1との互換性）
+chromadb:
+  collection_name: "phase01_documents"
+  embedding_model: "text-embedding-3-small"
+
+# ログ設定
+logging:
+  level: "INFO"           # ログレベル
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "./data/logs/agent.log"
+  rotate_size: "10MB"     # ログローテーション
+  backup_count: 5
+
+# パフォーマンス設定
+performance:
+  enable_profiling: false  # プロファイリング
+  batch_size: 10          # バッチ処理サイズ
+  connection_pool_size: 5  # 接続プールサイズ
+
+# セキュリティ設定
+security:
+  sanitize_inputs: true    # 入力のサニタイズ
+  max_input_length: 5000   # 最大入力長
+  rate_limit: 60          # レート制限（リクエスト/分）
