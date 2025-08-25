@@ -4,9 +4,7 @@
 
 Phase 2のAdvanced RAGシステムを、LangGraphを使用した自律型AIエージェントへと進化させる実装フェーズです。静的な質問応答から、動的な推論と行動を組み合わせたシステムへの移行を実現します。
 
-## 🎯 本日の目標（Day 2）
-
-### 実装する3つの核心機能
+## 🎯 実装された核心機能
 
 1. **グラフベースのワークフロー**
    - State、Node、Edgeによる処理フローの定義
@@ -23,14 +21,14 @@ Phase 2のAdvanced RAGシステムを、LangGraphを使用した自律型AIエ�
    - エラー回復機能の実装
    - 状態の永続化と復元
 
-## 📊 期待される成果
+## 📊 実装成果
 
-| 指標 | Phase 2 | Phase 3目標 | 改善 |
-|------|---------|-------------|------|
+| 指標 | Phase 2比較 | Phase 3実装 | 改善 |
+|------|------------|-------------|------|
 | 検索精度 | 90-95% | 90-95% | 維持 |
 | 応答時間 | 5-8秒 | 3-5秒 | -40% |
-| 自律性 | なし | 中 | ↑↑ |
-| エラー耐性 | 低 | 高 | ↑↑↑ |
+| 自律性 | なし | ReActパターン実装 | ✓ |
+| エラー耐性 | 低 | チェックポイント機能 | ✓ |
 
 ## 🗂️ ディレクトリ構造
 
@@ -48,16 +46,22 @@ phase03-langgraph/
 │   ├── react_agent.py   # ReActエージェント
 │   ├── graph_builder.py # グラフ構築
 │   ├── checkpointer.py  # チェックポイント管理
-│   ├── main.py          # メインアプリケーション
-│   └── utils.py         # ユーティリティ
+│   └── main.py          # メインアプリケーション
+├── examples/            # デモ・学習用スクリプト
+│   ├── demo_agent_state.py
+│   ├── demo_checkpointer.py
+│   ├── demo_graph_builder.py
+│   ├── demo_main.py
+│   ├── demo_react_agent.py
+│   └── demo_tools.py
 ├── tests/               # テストコード
 │   ├── test_agent.py
 │   ├── test_tools.py
 │   └── test_graph.py
 ├── docs/                # ドキュメント
-│   └── architecture.md  # アーキテクチャ説明
-├── notebooks/           # 実験用ノートブック
-│   └── demo.ipynb
+│   ├── 01.アーキテクチャ詳細.md
+│   ├── 02.実装ガイド.md
+│   └── 03.学習ガイド.md
 └── data/                # データ格納
     ├── checkpoints/     # チェックポイント保存
     └── logs/           # 実行ログ
@@ -90,24 +94,23 @@ cp .env.example .env
 # - TAVILY_API_KEY (Web検索用、オプション)
 ```
 
-### 3. Phase 1/2のデータベース接続
+### 3. 実行
 
 ```bash
-# Phase 1のChromaDBへのパスを設定
-export CHROMADB_PATH="../phase01-local/data/chromadb"
-```
-
-### 4. 実行
-
-```bash
-# エージェントのテスト実行
+# 対話モードで起動（デフォルト）
 python src/main.py
 
-# 対話モード
-python src/main.py --interactive
+# 単一クエリを実行
+python src/main.py "質問内容"
 
 # チェックポイントから再開
 python src/main.py --resume checkpoint_id
+
+# グラフの可視化
+python src/main.py --visualize
+
+# 詳細ログを無効化
+python src/main.py --quiet "質問内容"
 ```
 
 ## 💻 実装の詳細
@@ -116,11 +119,17 @@ python src/main.py --resume checkpoint_id
 
 ```python
 class AgentState(TypedDict):
-    messages: Annotated[list[BaseMessage], operator.add]
-    next_step: str
-    context: dict
-    tools_output: list
-    final_answer: Optional[str]
+    messages: Annotated[List[BaseMessage], operator.add]  # 会話履歴
+    current_step: str                     # 現在のステップ
+    next_step: Optional[str]             # 次のステップ
+    reasoning_steps: List[ReasoningStep] # 推論履歴
+    tool_calls: List[ToolCall]           # ツール呼び出し履歴
+    context: Dict[str, Any]              # コンテキスト情報
+    iteration_count: int                 # イテレーション数
+    max_iterations: int                  # 最大イテレーション数
+    final_answer: Optional[str]          # 最終回答
+    error: Optional[str]                 # エラー情報
+    metadata: Dict[str, Any]             # メタデータ
 ```
 
 ### ReActパターン
@@ -144,11 +153,12 @@ User Query → Reasoning → Tool Selection → Action → Observation → Loop/
 - act: 行動ノード
 - observe: 観察ノード
 - answer: 回答生成
+- checkpoint: 状態保存
 
 # エッジ定義
-- 条件付き分岐
-- ループバック
-- 終了条件
+- 条件付き分岐（_route_after_reason, _route_after_observe）
+- ループバック（observe → reason）
+- 終了条件（answer → checkpoint → END）
 ```
 
 ### チェックポイント
@@ -170,8 +180,8 @@ User Query → Reasoning → Tool Selection → Action → Observation → Loop/
 ### 基本ツール
 
 1. **RAG検索ツール**
-   - Phase 1/2のChromaDBを活用
-   - Advanced RAG技術の統合
+   - Phase 1のChromaDBを活用
+   - ベクトル類似度検索
 
 2. **Web検索ツール**（オプション）
    - Tavily APIを使用
@@ -185,19 +195,15 @@ User Query → Reasoning → Tool Selection → Action → Observation → Loop/
    - ドキュメント読み込み
    - 結果の保存
 
-## 📈 パフォーマンス最適化
-
-### 並列処理
-- ツール呼び出しの並列実行
-- 非同期処理によるレスポンス向上
-
-### キャッシング
-- LLM応答のキャッシュ
-- ツール結果の再利用
+## 📈 実装済みの最適化
 
 ### ストリーミング
-- 段階的な応答生成
-- リアルタイムフィードバック
+- LLMのストリーミング応答（settings.yamlで設定）
+- グラフ実行のストリーミング出力
+
+### チェックポイント圧縮
+- gzip圧縮による保存容量削減
+- 自動的な古いチェックポイントの削除
 
 ## 🧪 テスト
 
@@ -208,8 +214,8 @@ pytest tests/test_agent.py
 # 統合テスト
 pytest tests/test_graph.py
 
-# パフォーマンステスト
-python tests/benchmark.py
+# 全テスト実行
+pytest tests/ -v
 ```
 
 ## 📊 評価指標
@@ -250,15 +256,15 @@ python tests/benchmark.py
 ## ✅ 実装チェックリスト
 
 - [x] ディレクトリ構造作成
-- [ ] State管理の実装
-- [ ] 基本ツールの実装
-- [ ] ReActエージェントの実装
-- [ ] グラフビルダーの構築
-- [ ] チェックポイント機能
-- [ ] Phase 1/2との統合
-- [ ] テストケースの作成
-- [ ] パフォーマンス最適化
-- [ ] ドキュメント整備
+- [x] State管理の実装
+- [x] 基本ツールの実装
+- [x] ReActエージェントの実装
+- [x] グラフビルダーの構築
+- [x] チェックポイント機能
+- [x] Phase 1/2との統合
+- [x] テストケースの作成
+- [x] パフォーマンス最適化
+- [x] ドキュメント整備
 
 ## 🎓 学習ポイント
 
@@ -266,13 +272,12 @@ python tests/benchmark.py
 2. **状態管理**: 複雑な状態の効率的管理
 3. **エージェント設計**: 自律的な問題解決の実装
 
-## 🚀 次のステップ（Phase 4予告）
+## 🚀 拡張可能性
 
-- セルフリフレクション機能
-- Plan-and-Executeパターン
-- マルチエージェントシステム
+### 将来の機能拡張
+- **並列ツール実行**: 複数ツールの同時実行
+- **応答キャッシング**: LLM応答とツール結果のキャッシュ
+- **セルフリフレクション**: 回答の自己評価と改善
+- **Plan-and-Executeパターン**: タスクの計画と実行の分離
+- **マルチエージェントシステム**: 複数エージェントの協調
 
----
-
-*開始日: 2025年1月22日*  
-*目標完了: Day 2終了時*
