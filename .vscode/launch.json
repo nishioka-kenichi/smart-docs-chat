@@ -2,55 +2,16 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Phase02: AdvancedRag Test",
+            "name": "Phase03: Current File",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/phase02-advanced-rag/src/advanced_rag_chain.py",
+            "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "python": "${workspaceFolder}/phase02-advanced-rag/.venv/bin/python",
-            "cwd": "${workspaceFolder}/phase02-advanced-rag",
+            "python": "${workspaceFolder}/phase03-langgraph/.venv/bin/python",
+            "cwd": "${workspaceFolder}/phase03-langgraph",
             "env": {
-                "PYTHONPATH": "${workspaceFolder}/phase02-advanced-rag"
-            }
-        },
-        {
-            "name": "Phase02: ReRanker Test",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${workspaceFolder}/phase02-advanced-rag/src/reranker.py",
-            "console": "integratedTerminal",
-            "justMyCode": true,
-            "python": "${workspaceFolder}/phase02-advanced-rag/.venv/bin/python",
-            "cwd": "${workspaceFolder}/phase02-advanced-rag",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/phase02-advanced-rag"
-            }
-        },
-        {
-            "name": "Phase02: RagFusion Test",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${workspaceFolder}/phase02-advanced-rag/src/rag_fusion.py",
-            "console": "integratedTerminal",
-            "justMyCode": true,
-            "python": "${workspaceFolder}/phase02-advanced-rag/.venv/bin/python",
-            "cwd": "${workspaceFolder}/phase02-advanced-rag",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/phase02-advanced-rag"
-            }
-        },
-        {
-            "name": "Phase02: HyDE Test",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${workspaceFolder}/phase02-advanced-rag/src/hyde.py",
-            "console": "integratedTerminal",
-            "justMyCode": true,
-            "python": "${workspaceFolder}/phase02-advanced-rag/.venv/bin/python",
-            "cwd": "${workspaceFolder}/phase02-advanced-rag",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}/phase02-advanced-rag"
+                "PYTHONPATH": "${workspaceFolder}/phase03-langgraph"
             }
         },
         {
@@ -78,6 +39,38 @@
             "env": {
                 "PYTHONPATH": "${workspaceFolder}/phase01-local"
             }
-        }
+        },
+        {
+            "name": "Phase02: HyDE Test",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/phase02-advanced-rag/src/hyde.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "python": "${workspaceFolder}/phase02-advanced-rag/.venv/bin/python",
+            "cwd": "${workspaceFolder}/phase02-advanced-rag",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/phase02-advanced-rag"
+            }
+        },
+        {
+            "name": "Phase03: Main Debug Mode",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/phase03-langgraph/src/main.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "python": "${workspaceFolder}/phase03-langgraph/.venv/bin/python",
+            "cwd": "${workspaceFolder}/phase03-langgraph",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/phase03-langgraph/src",
+                "DEBUG": "true"
+            },
+            "args": [
+                "勤務して2年目だが過去に有給を2日使った。残りは何日か？",
+                // "--visualize"
+                "-i"
+            ]
+        },
     ]
 }
